@@ -1,15 +1,16 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        map <int , int> hashmap;
-        for(int i = 0 ; i < nums.size() ; i++){
-            int find = target - nums[i];
-            if(hashmap.find(find)!=hashmap.end()){
-                return {hashmap[find] , i};
+        int n = nums.size();
+        unordered_map <int,int> mp; // {num , index}
+        for(int i  = 0 ; i < n ; i++){
+            int remaining = target - nums[i];
+            if(mp.find(remaining) != mp.end()){
+                return {mp[remaining] , i};
             }
-            else{
-                hashmap.insert({nums[i],i});
-            }
+            mp.insert({nums[i] , i});
         }
+        return {-1};
+
     }
 };
