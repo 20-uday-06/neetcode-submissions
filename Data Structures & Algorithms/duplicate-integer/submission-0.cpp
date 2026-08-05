@@ -1,16 +1,13 @@
 class Solution {
 public:
     bool hasDuplicate(vector<int>& nums) {
-        bool once = false;
-        map <int , int> m;
-        for(int i = 0 ; i < nums.size();i++){
-            m[nums[i]]++;
-        }
-        for(auto i : m){
-            if(i.second > 1){
-                once = true;
+        unordered_set <int> st;
+        for(int i : nums){
+            if(st.find(i) == st.end()){
+                st.insert(i);
             }
+            else return true;
         }
-        return once;
+        return false;
     }
 };
