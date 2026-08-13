@@ -1,0 +1,54 @@
+class Solution {
+   public:
+    void bfs(vector<vector<char>> & board , vector<vector<int>> & vis , queue<pair<int,int>> & q) {
+        int n = board.size();
+        int m = board[0].size();
+
+        int dx[] = {0, 1, 0, -1};
+        int dy[] = {1, 0, -1, 0};
+
+        while (!q.empty()) {
+            auto [row, col] = q.front();
+            q.pop();
+
+            for (int k = 0; k < 4; k++) {
+                int nr = row + dx[k];
+                int nc = col + dy[k];
+
+                if (!(nr >= 0 && nc >= 0 && nr < n && nc < m)) continue;
+                if (board[nr][nc] == 'O' && vis[nr][nc] != 1) {
+                    vis[nr][nc] = 1;
+                    q.push({nr, nc});
+                }
+            }
+        }
+    }
+    void solve(vector<vector<char>>& board) {
+        int n = board.size();
+        int m = board[0].size();
+
+        queue<pair<int,int>> q;
+
+        vector<vector<int>> vis (n , vector<int> ( m , 0));
+
+        for (int j = 0; j < m; j++) {
+            if (board[0][j] == 'O') q.push({0, j}) , vis[0][j] = 1;
+
+            if (board[n - 1][j] == 'O') q.push({n - 1, j}) , vis[n-1][j] = 1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (board[i][0] == 'O') q.push({i, 0}) , vis[i][0] = 1;
+
+            if (board[i][m - 1] == 'O') q.push({i, m - 1}) , vis[i][m-1] = 1;
+        }
+
+        bfs(board , vis , q);
+
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                if(board[i][j] == 'O' && vis[i][j] == 0) board[i][j] = 'X';
+            }
+        }
+    }
+};
